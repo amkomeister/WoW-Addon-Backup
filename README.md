@@ -166,6 +166,6 @@ This is an independent file utility, not an in-game addon or an official Blizzar
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Tests use temporary synthetic client folders, including dummy executable files that are never executed. They cover hidden and Unicode files, exact content recovery, cancellation, process guards, unsafe archives, permission denial, rollback and a hard exit during replacement.
 
-GitHub Actions runs the checks on Windows in both supported PowerShell engines. A tagged release is published only after both matrix jobs succeed for that tag's exact commit. Release packaging uses an explicit file allowlist and contains no fixtures, backups or local diagnostics.
+GitHub Actions runs the checks on Windows in both supported PowerShell engines. A tagged release is published only after both Windows test jobs succeed for that tag's exact commit. Release packaging uses an explicit file allowlist and contains no fixtures, backups or local diagnostics.
 
 MIT licensed. See [LICENSE](LICENSE).

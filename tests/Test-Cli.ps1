@@ -55,7 +55,9 @@ exit $LASTEXITCODE
     Assert-Test (@(Get-ChildItem -LiteralPath $destination -Filter '*.zip').Count -eq 1) 'cancelled CLI restore does not write recovery files'
     [IO.File]::WriteAllText((Join-Path $game 'WTF\Config.wtf'), 'later')
     $restore = Invoke-TestCli ('-Action Restore -GamePath "' + $game + '" -ArchivePath "' + $archive + '" -BackupDirectory "' + $destination + '"') ('RESTORE' + [Environment]::NewLine)
-    Assert-Test ($restore.Code -eq 0 -and $restore.Output -match 'Restore verified') 'explicit CLI confirmation restores successfully'
+    $restoreError = [regex]::Match($restore.Output, 'ERROR - ([A-Z_]+):').Groups[1].Value
+    $restoreDetail = 'explicit CLI confirmation restores successfully; exit=' + $restore.Code + '; error=' + $restoreError + '; cancelled=' + ($restore.Output -match 'Cancelled')
+    Assert-Test ($restore.Code -eq 0 -and $restore.Output -match 'Restore verified') $restoreDetail
     Assert-Test ([IO.File]::ReadAllText((Join-Path $game 'WTF\Config.wtf')) -ceq 'SET synthetic "yes"') 'CLI restores the saved bytes'
     $invalid = Invoke-TestCli ('-Action Verify -ArchivePath "' + (Join-Path $testRoot 'missing.zip') + '"')
     Assert-Test ($invalid.Code -eq 1 -and $invalid.Output -match 'INVALID_ARCHIVE') 'CLI returns a failure exit code'
