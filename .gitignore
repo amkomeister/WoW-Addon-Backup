@@ -1,0 +1,13 @@
+.superpowers/
+.runtime/
+dist/
+backups/
+reports/
+logs/
+*.zip
+*.partial
+*.log
+*.local.json
+config.json
+Thumbs.db
+.DS_Store

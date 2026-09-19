@@ -1,0 +1,13 @@
+[
+  "Start-WoWBackup.cmd",
+  "WoWAddonBackup.ps1",
+  "src/WoWBackup.Core.psm1",
+  "src/Archive.ps1",
+  "src/Restore.ps1",
+  "README.md",
+  "PRIVACY.md",
+  "SECURITY.md",
+  "LICENSE",
+  "CHANGELOG.md",
+  "CONTRIBUTING.md"
+]
