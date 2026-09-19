@@ -11,8 +11,18 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+function Read-WabInput([string]$Prompt) {
+    # ConsoleHost in Windows PowerShell may ignore redirected stdin on CI/service hosts.
+    # Explicitly read the supplied line there; interactive windows keep Read-Host.
+    if ([Console]::IsInputRedirected) {
+        Write-Host ($Prompt + ': ') -NoNewline
+        return [Console]::ReadLine()
+    }
+    return Read-Host $Prompt
+}
+
 function Read-WabPath([string]$Prompt) {
-    $answer = Read-Host $Prompt
+    $answer = Read-WabInput $Prompt
     if ($null -eq $answer) { return '' }
     return $answer.Trim().Trim('"')
 }
@@ -103,7 +113,7 @@ function Invoke-WabAction([string]$SelectedAction) {
                 return
             }
             Write-Host 'Current versions of these folders will be preserved before replacement.'
-            if ((Read-Host 'Type RESTORE to continue (anything else cancels)') -cne 'RESTORE') { Write-Host 'Cancelled.'; return }
+            if ((Read-WabInput 'Type RESTORE to continue (anything else cancels)') -cne 'RESTORE') { Write-Host 'Cancelled.'; return }
             $result = Restore-WabBackup -GamePath $client.Path -ArchivePath $selected -BackupDirectory $script:ChosenDestination -Confirm:$false
             Write-Host 'Restore verified.'
             Write-Host ('Recovery ZIP: ' + $result.RecoveryArchive)
@@ -135,7 +145,7 @@ try {
         Write-Host '5. Help'
         Write-Host '6. Change Client / Backup Folder'
         Write-Host '0. Exit'
-        $choice = Read-Host 'Choose an option'
+        $choice = Read-WabInput 'Choose an option'
         if ([string]::IsNullOrWhiteSpace($choice) -or $choice -eq '0') { break }
         try {
             switch ($choice) {
