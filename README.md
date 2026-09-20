@@ -33,13 +33,13 @@ The launcher uses Windows PowerShell with an execution policy override for that 
 
 | Folder | Stored client type |
 | --- | --- |
-| _classic_beta_ | classic-beta |
-| _classic_ / _classic_ptr_ | classic / classic-ptr |
-| _classic_era_ / _classic_era_ptr_ | classic-era / classic-era-ptr |
-| _retail_ / _ptr_ / _xptr_ / _beta_ | retail / retail-ptr / retail-xptr / retail-beta |
-| _forever_ / _forever_beta_ | forever / forever-beta, if your installation uses these names |
+| `_classic_beta_` | classic-beta |
+| `_classic_` / `_classic_ptr_` | classic / classic-ptr |
+| `_classic_era_` / `_classic_era_ptr_` | classic-era / classic-era-ptr |
+| `_retail_` / `_ptr_` / `_xptr_` / `_beta_` | retail / retail-ptr / retail-xptr / retail-beta |
+| `_forever_` / `_forever_beta_` | forever / forever-beta, if your installation uses these names |
 
-Folder names identify the client type; the tool does not guess from a marketing name or read the game executable. A beta advertised under a different name may still use _classic_beta_. If your folder name is unsupported, report only the generic folder name and game edition. Do not rename the installation just to bypass validation.
+Folder names identify the client type; the tool does not guess from a marketing name or read the game executable. A beta advertised under a different name may still use `_classic_beta_`. If your folder name is unsupported, report only the generic folder name and game edition. Do not rename the installation just to bypass validation.
 
 ## Step-by-step: make a backup
 

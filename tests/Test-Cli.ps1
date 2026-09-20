@@ -11,7 +11,13 @@ function Invoke-TestCli([string]$Arguments, [string]$InputText = '') {
     $start.RedirectStandardInput = $true; $start.RedirectStandardOutput = $true; $start.RedirectStandardError = $true
     $process = [Diagnostics.Process]::new(); $process.StartInfo = $start
     try {
-        [void]$process.Start()
+        $savedInputEncoding = [Console]::InputEncoding
+        try {
+            # Process.Start creates an AutoFlush writer, which can emit a BOM immediately
+            # in .NET Framework. Keep UTF-8 but remove that transport preamble in tests.
+            if ($savedInputEncoding.CodePage -eq 65001) { [Console]::InputEncoding = [Text.UTF8Encoding]::new($false) }
+            [void]$process.Start()
+        } finally { [Console]::InputEncoding = $savedInputEncoding }
         $outTask = $process.StandardOutput.ReadToEndAsync()
         $errorTask = $process.StandardError.ReadToEndAsync()
         $process.StandardInput.Write($InputText); $process.StandardInput.Close()
